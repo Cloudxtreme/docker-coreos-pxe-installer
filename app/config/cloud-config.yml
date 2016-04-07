@@ -1,0 +1,16 @@
+#cloud-config
+
+coreos:
+  etcd:
+    # generate a new token for each unique cluster from https://discovery.etcd.io/new?size=3
+    discovery: %(etcd_discovery_token)s
+    addr: %(client_ip)s:4001
+    peer-addr: %(client_ip)s:7001
+  units:
+    - name: etcd.service
+      command: start
+    - name: fleet.service
+      command: start
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7pGvhUC6+LuIpBRY6ly7ho5a95SaTTi4rrfdKj/vuOv3XcOSJRFO/w5bp7lii57rBp13wU8HlO29Z80qSeFvW/OFVlbUXMmKHcqL/xLonjlba013+8yC/NriQYNYU5iJ4+Gm0/0u8kaWJ9811cvaPKEUxrKbl+lRWRZ80yFAdc1KunqPMOjL/FLW0nsa2Zza4e979l5EGWRUhhfSRvAuMPCOA7fbf5HY99Zf5DdYP9BFwvcUoNo0sJmirWpWrVuywdQz5waEcHoEIiU/i2+W5/t6N+XxHC8hmJtvsCUIqqr3AViLLbtanut3SKyAjjACyqbAnE99RECw0/AqC8ObD
+hostname: coreos-%(client_ip_dash)s
